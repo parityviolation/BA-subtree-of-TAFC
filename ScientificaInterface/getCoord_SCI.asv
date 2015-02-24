@@ -1,0 +1,6 @@
+function coord= getCoord_SCI(id)
+fprintf(id,sprintf('p'));
+fscanf(id,'%d %d %d')
+char(fread(id,14)')
+coord = str2num(char(fread(id,14)'));
+disp(coord);

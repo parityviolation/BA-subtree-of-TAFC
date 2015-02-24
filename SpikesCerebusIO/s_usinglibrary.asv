@@ -1,0 +1,33 @@
+Expt.ephys.rawdataFilename= 'E:\Bass\ephys\Sert_179\012014\datafile006';
+fn = Expt.ephys.rawdataFilename
+
+r = brigdefs
+fn=[fn, '.ns6'];
+[ns_Result] = ns_SetLibrary(r.Dir.CereLib);
+[ns_Result, hFile] = ns_OpenFile(fn);
+[ns_Result, FileInfo] = ns_GetFileInfo(hFile);
+[ns_Result, EntityInfo] = ns_GetEntityInfo(hFile, [1 : FileInfo.EntityCount]);
+
+% 
+% [ns_RESULT, nsEventInfo] = ns_GetEventInfo(hFile, EntityID)
+
+NeuralList = find([EntityInfo.EntityType] == 4);    % List of EntityIDs needed to retrieve the information and data
+SegmentList = find([EntityInfo.EntityType] == 3);
+AnalogList = find([EntityInfo.EntityType] == 2);
+EventList = find([EntityInfo.EntityType] == 1);
+% get continuous channel
+
+
+% get sync event
+di_idx=[];
+for j = EventList
+    label = EntityInfo(j).EntityLabel; %e.g. 'chan1'
+    if strcmp(label, 'digin') %
+        idx = [j]; 
+    end
+end
+count =EntityInfo(idx).ItemCount
+[ns_Result, nsEventInfo] = ns_GetEventInfo(hFile,idx); 
+[ns_Result, TimeStamp, Data, DataSize]  = ns_GetEventData(hFile,idx,[1:count]);
+
+syncEvent = TimeStamp(Data==4)

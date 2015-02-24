@@ -1,0 +1,39 @@
+function hl = plotScatterSig(data,significant,options)
+% [x y]
+mycolor = 'k';
+hAx = gca;
+bplotmean = 1;
+meanfunction = @nanmean;
+if nargin>2
+    if isfield(options,'hAx')
+        hAx = option.hAx;
+    end
+    if isfield(options,'color')
+        mycolor = option.color;
+    end
+    if isfield(options,'bplotmean')
+        bplotmean = option.bplotmean;
+    end
+    if isfield(options,'meanfunction')
+        meanfunction = option.meanfunction;
+    end
+    
+end
+
+nobservations = size(data,1);
+
+for idata = 1:nobservations
+    
+    hl(idata) = line(data(idata,1), data(idata,2),'Marker','o','color',mycolor,...
+        'Parent',hAx);
+    if significant(idata)
+        set(hl(idata),'MarkerFaceColor',mycolor)
+    end
+    
+end
+
+if bplotmean
+    hl(idata) = line(meanfunction(data(:,1)), meanfunction(data(:,2)),'Marker','+',...
+        ,'color',mycolor,'Parent',hAx);
+end
+    

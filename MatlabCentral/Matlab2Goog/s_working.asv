@@ -1,0 +1,9 @@
+% load worksheet0
+s.spreadsheetTitle = 'TAFC Mice Weights Table';
+s.worksheetTitle = 'Sheet55';
+s.nColToGet = 6;
+s.nRowToGet = 3;%number of rows from the bottom, counting from the first     non empty row
+s = openGoogleWorkSheet(s,aTokenDocs,aTokenSpreadsheet);
+s = addExptRow(s,weight,boxIndex,protocol);
+h = createTable_GoogleWS(s);
+

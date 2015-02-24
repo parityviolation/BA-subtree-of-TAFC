@@ -1,0 +1,35 @@
+function hh = rotateXLabels( ax, angle, varargin )
+%rotateXLabels: rotate any xticklabels
+%
+%   hh = rotateXLabels(ax,angle) rotates all XLabels on axes AX by an angle
+%   ANGLE (in degrees). Handles to the resulting text objects are returned
+%   in HH.
+%
+%   hh = rotateXLabels(ax,angle,param,value,...) also allows one or more
+%   optional parameters to be specified. Possible parameters are:
+%     'MaxStringLength'   The maximum length of label to show (default inf)
+%
+%   Examples:
+%   >> bar( hsv(5)+0.05 )
+%   >> days = {'Monday','Tuesday','Wednesday','Thursday','Friday'};
+%   >> set( gca(), 'XTickLabel', days )
+%   >> rotateXLabels( gca(), 45 )
+%
+%   See also: GCA, BAR
+
+%   Copyright 2006-2013 The MathWorks Ltd.
+
+error( nargchk( 2, inf, nargin ) );
+if ~isnumeric( angle ) || ~isscalar( angle )
+    error( 'RotateXLabels:BadAngle', 'Parameter ANGLE must be a scalar angle in degrees' )
+end
+angle = mod( angle, 360 );
+
+[maxStringLength] = parseInputs( varargin{:} );
+
+if ~isscalar(ax)
+    for iax = 1:length(ax)
+        
+
+        
+        helperfunction

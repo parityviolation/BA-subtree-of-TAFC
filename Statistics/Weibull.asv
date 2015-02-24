@@ -1,0 +1,14 @@
+% function y = Weibull(param,x)
+% slope = param(1);
+% thr = param(2);
+% l = param(3);
+% u = param(4);
+function y = Weibull(param,x)
+slope = param(1);
+thr = param(2);
+l = param(3);
+u = param(4);
+
+y =  l + (1 - ( l - u)) .* (1 - exp(-((x ./ thr) .^ slope)));
+
+

@@ -1,0 +1,4 @@
+function [thisSession_roc thisSession_Area thisSession_H thisSession_Electrode thisSession_datenum]...
+    = plotROC_spikes(spikes,condset)
+
+

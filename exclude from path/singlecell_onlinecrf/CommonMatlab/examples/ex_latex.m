@@ -1,1 +1,0 @@
-title('$A_N = 1- \displaystyle\sum_{i=0}^T {N\choose i} p^i (1-p)^{N-i}$','interpreter','latex');

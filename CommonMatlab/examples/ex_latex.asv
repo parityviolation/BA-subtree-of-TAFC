@@ -1,0 +1,4 @@
+figure
+text(0.1,0.5,'$y = L + (U-L)\frac{\exp(\frac{x-b}{a})}{1 + \exp(\frac{x-b}{a}}$','interpreter','latex',...
+    'FontSize',20)
+% title('$A_N = 1- \displaystyle\sum_{i=0}^T {N\choose i} p^i (1-p)^{N-i}$','interpreter','latex');

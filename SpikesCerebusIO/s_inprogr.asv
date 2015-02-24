@@ -1,0 +1,76 @@
+% load
+r = brigdefs;
+chn = 3
+basedir = r.Dir.EphysData;
+mdir = 'Sert_179\012014\';
+fileheader = 'datafile006';
+f = [fileheader '.ns6'];
+filename = fullfile(basedir,mdir,f)
+
+%% load digital events
+[ext fn path] = fileparts(filename);
+sdir = fullfile(r.Dir.EphysData,'Matlab',mdir);
+savef= strrep(f,'.','_');
+savef= fullfile(sdir,[savef '_' 'digital.mat']);
+
+if exist(savef,'file')
+    load(savef);
+else
+    ev = loadDdata(filename); 
+    save(savef,'ev');
+end
+
+%% script for all channels
+chns = 3;
+for ichn = chns
+    try
+        sdir = fullfile(r.Dir.EphysData,'Matlab',mdir);
+        savef= strrep(f,'.','_');
+        savef= fullfile(sdir,[savef '_' num2str(ichn) '.mat']);
+        
+        if exist(savef,'file')
+            load(savef)
+        else
+            
+            d = openNSx('report','read',filename ,'channels',chn,'precision', 'short');
+            
+            d.dt = 1/d.MetaTags.SamplingFreq;
+            d.ChannelID = d.MetaTags.ChannelID;
+            
+            
+            parentfolder(sdir,1)
+            save(savef,'d')
+        end
+        
+        
+    catch ME
+        ichn
+        getReport(ME)
+    end
+    
+end
+%%
+
+d.subsample = 10;
+d.dt = d.dt*d.subsample;
+d.Data = d.Data(1:d.subsample:end)
+
+ev.timestamp_samples= round(ev.timestamp/d.dt);
+ev.dt = d.dt;
+
+% get sta LFP
+d.WOI = [10 10];
+d.lfpLowPass= 50;
+d.lfp = filtdata(double(d.Data)',1/d.dt,d.lfpLowPass,'low');
+sWOI = round(d.WOI/d.dt);
+w = getWOI(d.lfp,ev.timestamp_samples,sWOI);
+xtime = [-sWOI(1):sWOI(2)]*d.dt;
+plot(xtime,nanmean(w))
+
+line([0 0],[min(ylim) max(ylim)],'color','k')
+
+% plot multiunit PSTH
+
+% plot for unstimulated trials 
+
+
